@@ -1,5 +1,6 @@
 package com.example.android.guesstheword.screens.game
 
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,6 +21,23 @@ class GameViewModel: ViewModel(){
     val eventGameFinish:LiveData<Boolean>
     get() = _eventGameFinish
 
+    private val _currentTime = MutableLiveData<Long>()
+    val currentTime:LiveData<Long>
+    get() = _currentTime
+
+    val timer:CountDownTimer
+
+//    Companion object for the timer
+    companion object {
+        // These represent different important times
+        // This is when the game is over
+        const val DONE = 0L
+        // This is the number of milliseconds in a second
+        const val ONE_SECOND = 1000L
+        // This is the total time of the game
+        const val COUNTDOWN_TIME = 60000L
+    }
+
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
     init {
@@ -28,7 +46,20 @@ class GameViewModel: ViewModel(){
         nextWord()
         mutableScore.value = 0
         _eventGameFinish.value = false
+
+        timer= object :CountDownTimer(COUNTDOWN_TIME, ONE_SECOND){
+            override fun onTick(millisUntilFinished: Long) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onFinish() {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        }
+        timer.start()
     }
+
+//    DateUtils.formatElapsedTime(newTime)
     private fun resetList() {
         wordList = mutableListOf(
                 "queen",
@@ -58,10 +89,9 @@ class GameViewModel: ViewModel(){
     private fun nextWord() {
         //Select and remove a word from the list
         if (wordList.isEmpty()) {
-            _eventGameFinish.value = true
-        } else {
-            mutableWord.value = wordList.removeAt(0)
+          resetList()
         }
+        mutableWord.value = wordList.removeAt(0)
 
     }
 
@@ -80,5 +110,10 @@ class GameViewModel: ViewModel(){
   fun onCorrect() {
         mutableScore.value = (score.value)?.plus(1)
         nextWord()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        timer.cancel()
     }
 }
