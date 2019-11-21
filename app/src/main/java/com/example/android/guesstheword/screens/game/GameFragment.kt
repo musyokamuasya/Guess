@@ -38,6 +38,7 @@ class GameFragment : Fragment() {
 
     private lateinit var binding: GameFragmentBinding
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
