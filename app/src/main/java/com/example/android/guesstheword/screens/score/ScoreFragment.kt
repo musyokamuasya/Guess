@@ -49,6 +49,7 @@ class ScoreFragment : Fragment() {
                 container,
                 false
         )
+//        TODO Update the Ui with Livedata
         scoreViewModelFactory = ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(arguments!!).score)
 
         scoreViewModel = ViewModelProviders.of(this, scoreViewModelFactory).get(ScoreViewModel::class.java)

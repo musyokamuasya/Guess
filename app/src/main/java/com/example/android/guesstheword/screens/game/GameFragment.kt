@@ -65,6 +65,8 @@ class GameFragment : Fragment() {
                 viewModel.onGameFinishComplete()
             }
         })
+        binding.gameViewModel = viewModel
+        binding.setLifecycleOwner(this)
 
         binding.correctButton.setOnClickListener { viewModel.onCorrect() }
         binding.skipButton.setOnClickListener { viewModel.onSkip() }
